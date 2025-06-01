@@ -25,10 +25,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.MainHand;
 
-public class Info implements CommandExecutor, Listener {
+public class Userinfo implements CommandExecutor, Listener {
     private final Main plugin;
 
-    public Info(Main plugin) {
+    public Userinfo(Main plugin) {
         this.plugin = plugin;
     }
 

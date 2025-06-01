@@ -73,7 +73,7 @@ public class AltChecker implements Listener {
 
             if (!altAccounts.toString().isEmpty()) {
                 if (altAccounts.length() > 0) {
-                    String message = "§8[§7Portlin§8] §7" + "Der Spieler " + playerName +
+                    String message = "§8[§cFightroom§8] §7" + "Der Spieler " + playerName +
                             " könnte ein Zweitaccount sein von: " +
                             altAccounts.substring(0, altAccounts.length() - 2);
 

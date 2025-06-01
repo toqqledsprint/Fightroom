@@ -13,7 +13,8 @@ commands:
     permission: fightroom.unmute
   kick:
     permission: fightroom.kick
-  info:
+  userinfo:
+    aliases: uinfo
     permission: fightroom.info
   report:
   regeln:

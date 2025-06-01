@@ -55,11 +55,11 @@ public final class Main extends JavaPlugin {
         getCommand("unmute").setExecutor(new Unmute());
         getCommand("kick").setExecutor(new KickCommand());
         getCommand("report").setExecutor(new Report(this));
-        getCommand("info").setExecutor(new Info(this));
+        getCommand("userinfo").setExecutor(new Userinfo(this));
         getCommand("regeln").setExecutor(new Regeln(this));
 
         getServer().getPluginManager().registerEvents(new Report(this), this);
-        getServer().getPluginManager().registerEvents(new Info(this), this);
+        getServer().getPluginManager().registerEvents(new Userinfo(this), this);
         getServer().getPluginManager().registerEvents(new AltChecker(this), this);
 
         if (!broadcasts.isEmpty()) {
