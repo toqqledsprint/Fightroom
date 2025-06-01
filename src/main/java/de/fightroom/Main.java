@@ -23,7 +23,7 @@ public final class Main extends JavaPlugin {
     private final List<String> broadcasts = Arrays.asList(
             "\n§7Vote immer für unseren Server §8► §b§l*/VOTE*\n",
             "\n§bFolge uns auf Discord für Updates! §8► §b/dc\n",
-            "\n§cUnser Regelwerk §8► §c/regeln"
+            "\n§cUnser Regelwerk §8► §c/regeln\n"
     );
 
     private final Random random = new Random();
