@@ -61,13 +61,17 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Report(this), this);
         getServer().getPluginManager().registerEvents(new Info(this), this);
 
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                String message = broadcasts.get(random.nextInt(broadcasts.size()));
-                Bukkit.broadcastMessage(message);
-            }
-        }.runTaskTimer(Main.getInstance(), 2400, 8400);
+        if (!broadcasts.isEmpty()) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    String message = broadcasts.get(random.nextInt(broadcasts.size()));
+                    Bukkit.broadcastMessage(message);
+                }
+            }.runTaskTimer(Main.getInstance(), 2400, 8400);
+        } else {
+            Bukkit.getLogger().warning("KEINE BROADCAST NACHRICHT GESENDET");
+        }
 
     }
 
