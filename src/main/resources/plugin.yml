@@ -1,0 +1,35 @@
+name: Fightroom
+version: 1.0
+main: de.fightroom.Main
+api-version: 1.21
+commands:
+  ban:
+    permission: fightroom.ban
+  unban:
+    permission: fightroom.unban
+  mute:
+    permission: fightroom.mute
+  unmute:
+    permission: fightroom.unmute
+  kick:
+    permission: fightroom.kick
+  info:
+    permission: fightroom.info
+  report:
+  regeln:
+
+permissions:
+  fightroom.ban:
+    default: op
+  fightroom.unban:
+    default: op
+  fightroom.mute:
+    default: op
+  fightroom.unmute:
+    default: op
+  fightroom.kick:
+    default: op
+  fightroom.team:
+    default: op
+  fightroom.info:
+    default: op
