@@ -89,11 +89,6 @@ public class AltChecker implements Listener {
     }
 
     private void saveData() {
-        try {
-            data.save(dataFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             try {
                 data.save(dataFile);
