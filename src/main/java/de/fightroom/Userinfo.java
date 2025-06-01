@@ -35,7 +35,7 @@ public class Userinfo implements CommandExecutor, Listener {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player)sender;
-            if (command.getName().equalsIgnoreCase("info")) {
+            if (command.getName().equalsIgnoreCase("userinfo")) {
                 if (args.length == 0) {
                     player.sendMessage("§cVerwende: §7/info <Spieler>");
                 }

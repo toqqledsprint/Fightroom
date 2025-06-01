@@ -4,6 +4,11 @@ import de.fightroom.punish.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -13,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public final class Main extends JavaPlugin {
+public final class Main extends JavaPlugin implements Listener {
 
     private static Main instance;
 
@@ -61,6 +66,7 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Report(this), this);
         getServer().getPluginManager().registerEvents(new Userinfo(this), this);
         getServer().getPluginManager().registerEvents(new AltChecker(this), this);
+        getServer().getPluginManager().registerEvents(this, this);
 
         if (!broadcasts.isEmpty()) {
             new BukkitRunnable() {
@@ -86,6 +92,32 @@ public final class Main extends JavaPlugin {
 
     public Mutes getMutes() {
         return mutes;
+    }
+
+    @EventHandler
+    public void onJoinIsBanned(PlayerLoginEvent e) {
+        Player player = e.getPlayer();
+        if (getBans().isBanned(player.getUniqueId().toString())) {
+            if (getBans().getBanMillis(player.getUniqueId().toString()) <= System.currentTimeMillis()) {
+                getBans().unban(player.getUniqueId());
+            } else {
+                getBans().sendBanScreen(player);
+                e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+                e.setKickMessage(getBans().sendBanScreenString(e.getPlayer()));
+            }
+        }
+    }
+
+    @EventHandler
+    public void onChatMessageisMuted(AsyncPlayerChatEvent e) {
+        if (getMutes().isMuted(e.getPlayer().getUniqueId().toString())) {
+            if (getMutes().getMuteMillis(e.getPlayer().getUniqueId().toString()) <= System.currentTimeMillis()) {
+                getMutes().unmute(e.getPlayer().getUniqueId());
+            } else {
+                e.setCancelled(true);
+                getMutes().sendMuteMessage(e.getPlayer());
+            }
+        }
     }
 
 }
