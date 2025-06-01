@@ -60,6 +60,7 @@ public final class Main extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new Report(this), this);
         getServer().getPluginManager().registerEvents(new Info(this), this);
+        getServer().getPluginManager().registerEvents(new AltChecker(this), this);
 
         if (!broadcasts.isEmpty()) {
             new BukkitRunnable() {
