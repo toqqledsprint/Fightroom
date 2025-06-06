@@ -18,6 +18,8 @@ commands:
     permission: fightroom.info
   report:
   regeln:
+  alts:
+    permission: fightroom.team
 
 permissions:
   fightroom.ban:

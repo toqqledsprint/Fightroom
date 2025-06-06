@@ -48,7 +48,7 @@ public class Mutes {
         p.sendMessage("");
         p.sendMessage(" §cDu bist im Moment stumm geschalten!");
         p.sendMessage("  §8• §fStummgeschalten bis: §7" + this.getUnmuteDate(p.getUniqueId().toString()));
-        p.sendMessage("  §8• §fGrund der Stummschaltung: §c" + this.getReason(p.getUniqueId().toString()));
+        p.sendMessage("  §8• §fGrund der Stummschaltung: §c" + this.getReason(p.getUniqueId().toString().replaceAll("_", " ")));
         p.sendMessage("");
     }
 

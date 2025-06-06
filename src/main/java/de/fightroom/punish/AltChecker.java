@@ -3,6 +3,7 @@ package de.fightroom.punish;
 import de.fightroom.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -58,10 +59,15 @@ public class AltChecker implements Listener {
 
             for (String name : knownPlayers) {
                 if (!name.equalsIgnoreCase(playerName)) {
-                    boolean isBanned = Bukkit.getOfflinePlayer(name).isBanned();
+                    OfflinePlayer known = Bukkit.getOfflinePlayer(name);
+                    boolean isBanned = Main.getInstance().getBans().isBanned(known.getUniqueId().toString());
 
                     if (isBanned) {
-                        altAccounts.append(ChatColor.RED).append(name).append(ChatColor.RESET);
+                        if (Main.getInstance().getBans().getBanMillis(player.getUniqueId().toString()) <= System.currentTimeMillis()) {
+                            Main.getInstance().getBans().unban(player.getUniqueId());
+                        } else {
+                            altAccounts.append("§c§l").append(name).append(" (GESPERRT)").append(ChatColor.RESET);
+                        }
                     } else {
                         altAccounts.append(ChatColor.GREEN).append(name).append(ChatColor.RESET);
                     }
@@ -70,11 +76,10 @@ public class AltChecker implements Listener {
                 }
             }
 
-
             if (!altAccounts.toString().isEmpty()) {
                 if (altAccounts.length() > 0) {
-                    String message = "§8[§cFightroom§8] §7" + "Der Spieler " + playerName +
-                            " könnte ein Zweitaccount sein von: " +
+                    String message = "§8[§cFightroom§8] §7" + "Der Spieler §a" + playerName +
+                            " §7könnte ein Multiaccount sein von: " +
                             altAccounts.substring(0, altAccounts.length() - 2);
 
 

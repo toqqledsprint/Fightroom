@@ -49,7 +49,7 @@ public class Bans {
     }
 
     public String sendBanScreenString(Player p) {
-        return "§cDu wurdest für §e" + this.getReason(p.getUniqueId().toString()).toUpperCase() + " §cgesperrt!\n\n§cDu wirst am §7" + this.getUnbanDate(p.getUniqueId().toString()) + " §centbannt.";
+        return "§cDu wurdest für §e" + this.getReason(p.getUniqueId().toString()).toUpperCase().replaceAll("_", " ") + " §cgesperrt!\n\n§cDu wirst am §7" + this.getUnbanDate(p.getUniqueId().toString()) + " §centbannt.";
     }
 
     public String getReason(String uuid) {

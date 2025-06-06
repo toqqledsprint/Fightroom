@@ -50,6 +50,12 @@ public class MuteCommand implements TabExecutor {
                             proof1 += args[i] + " ";
                         }
 
+                        String description = "**" + target.getName() + "** wurde gestummt!\n\n**Grund:** " + reason1.toUpperCase() + "\n**Dauer:** " + value1 + " " + unit1.getName() + "\n\n**Beweis:** " + proof1 + "\n**Teammitglied:** " + player.getName();
+                        Main.getInstance().sendDiscordEmbed("https://discord.com/api/webhooks/1380596225342046209/46USBOQZGBnjzRfP1pyoeLFFc1Xj0QfsK2y_4yGAq5h0pI_hiyPwghsJ6Jfc426UGiZb",
+                                "Fightroom", "", "", "MUTE", "#ff2f00", "https://mc-heads.net/avatar/" + target.getName() + "/100/nohelm.png", "", "", description);
+
+
+
                         if (Bukkit.getPlayerExact(name) != null) {
                             Main.getInstance().getMutes().sendMuteMessage(Bukkit.getPlayerExact(name));
                         }
@@ -81,8 +87,18 @@ public class MuteCommand implements TabExecutor {
 
                     Bukkit.broadcastMessage("");
                     Bukkit.broadcastMessage(" §c§lMUTE §8- §7" + target.getName() + " §7wurde stummgeschalten!");
-                    Bukkit.broadcastMessage("  §8» §7Dauer: §e" + value + " " + unit.getName() + " §8| §7Grund: §c" + reason.toUpperCase());
+                    if (!(value >= 5) && !(unit == MuteUnit.YEAR)) {
+                        Bukkit.broadcastMessage("  §8» §7Dauer: §e" + value + " " + unit.getName() + " §8| §7Grund: §c" + reason.toUpperCase().replaceAll("_", " "));
+                    } else {
+                        Bukkit.broadcastMessage("  §8» §7Dauer: §ePERMANENT" + " §8| §7Grund: §c" + reason.toUpperCase().replaceAll("_", " "));
+                    }
                     Bukkit.broadcastMessage("");
+
+                    String description = "**" + target.getName() + "** wurde gestummt!\n\n**Grund:** " + reason.toUpperCase() + "\n**Dauer:** " + value + " " + unit.getName() + "\n\n**Beweis:** " + proof + "\n**Teammitglied:** " + player.getName();
+                    Main.getInstance().sendDiscordEmbed("https://discord.com/api/webhooks/1380596225342046209/46USBOQZGBnjzRfP1pyoeLFFc1Xj0QfsK2y_4yGAq5h0pI_hiyPwghsJ6Jfc426UGiZb",
+                            "Fightroom", "", "", "MUTE", "#ff2f00", "https://mc-heads.net/avatar/" + target.getName() + "/100/nohelm.png", "", "", description);
+
+
 
                     if (Bukkit.getPlayerExact(name) != null) {
                         Main.getInstance().getMutes().sendMuteMessage(Bukkit.getPlayerExact(name));

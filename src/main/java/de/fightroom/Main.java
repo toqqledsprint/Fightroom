@@ -8,11 +8,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -62,6 +65,7 @@ public final class Main extends JavaPlugin implements Listener {
         getCommand("report").setExecutor(new Report(this));
         getCommand("userinfo").setExecutor(new Userinfo(this));
         getCommand("regeln").setExecutor(new Regeln(this));
+        getCommand("alts").setExecutor(new AltsCommand(this));
 
         getServer().getPluginManager().registerEvents(new Report(this), this);
         getServer().getPluginManager().registerEvents(new Userinfo(this), this);
@@ -119,6 +123,54 @@ public final class Main extends JavaPlugin implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onMuteMsg(PlayerCommandPreprocessEvent event) {
+        if (getMutes().isMuted(event.getPlayer().getUniqueId().toString())) {
+            String message = event.getMessage().toLowerCase();
+
+            if (message.startsWith("/msg") || message.startsWith("/r ")) {
+                getMutes().sendMuteMessage(event.getPlayer());
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    public void sendDiscordMessage(String webhookURL, String message) {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            DiscordWebhook discordWebhook = new DiscordWebhook(webhookURL);
+            discordWebhook.setContent("``` " +
+                    message.replaceAll("`", " ")
+                            .replaceAll("\"", " ")
+                            .replaceAll("@everyone", "@ everyone")
+                            .replaceAll("@here", "@ here") +
+                    " ```");
+            try {
+                discordWebhook.execute();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public void sendDiscordEmbed(String webhookURL, String author, String authorURL, String authorIcon, String title, String color, String thumbnailURL, String footer, String footerIcon, String description) {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            DiscordWebhook discordWebhook = new DiscordWebhook(webhookURL);
+            discordWebhook.addEmbed(new DiscordWebhook.EmbedObject()
+                    .setAuthor(author, authorURL, authorIcon)
+                    .setTitle(title)
+                    .setColor(Color.decode(color))
+                    .setThumbnail(thumbnailURL)
+                    .setFooter(footer, footerIcon)
+                    .setDescription(description));
+            try {
+                discordWebhook.execute();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
 
 }
 

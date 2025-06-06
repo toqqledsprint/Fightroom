@@ -51,6 +51,11 @@ public class BanCommand implements TabExecutor {
                             proof1 += args[i] + " ";
                         }
 
+                        String description = "**" + target.getName() + "** wurde gebannt!\n\n**Grund:** " + reason1.toUpperCase() + "\n**Dauer:** " + value1 + " " + unit1.getName() + "\n\n**Beweis:** " + proof1 + "\n**Teammitglied:** " + player.getName();
+                        Main.getInstance().sendDiscordEmbed("https://discord.com/api/webhooks/1380596225342046209/46USBOQZGBnjzRfP1pyoeLFFc1Xj0QfsK2y_4yGAq5h0pI_hiyPwghsJ6Jfc426UGiZb",
+                                "Fightroom", "", "", "BAN", "#ff2f00", "https://mc-heads.net/avatar/" + target.getName() + "/100/nohelm.png", "", "", description);
+
+
                         if (Bukkit.getPlayerExact(name) != null) {
                             Main.getInstance().getBans().sendBanScreen(Bukkit.getPlayerExact(name));
                         }
@@ -84,8 +89,17 @@ public class BanCommand implements TabExecutor {
 
                     Bukkit.broadcastMessage("");
                     Bukkit.broadcastMessage(" §c§lBAN §8- §7" + target.getName() + " §7wurde gesperrt!");
-                    Bukkit.broadcastMessage("  §8» §7Dauer: §e" + value + " " + unit.getName() + " §8| §7Grund: §c" + reason.toUpperCase());
+                    if (!(value >= 5) && !(unit == BanUnit.YEAR)) {
+                        Bukkit.broadcastMessage("  §8» §7Dauer: §e" + value + " " + unit.getName() + " §8| §7Grund: §c" + reason.toUpperCase().replaceAll("_", " "));
+                    } else {
+                        Bukkit.broadcastMessage("  §8» §7Dauer: §ePERMANENT" + " §8| §7Grund: §c" + reason.toUpperCase().replaceAll("_", " "));
+                    }
                     Bukkit.broadcastMessage("");
+
+                    String description = "**" + target.getName() + "** wurde gebannt!\n\n**Grund:** " + reason.toUpperCase() + "\n**Dauer:** " + value + " " + unit.getName() + "\n\n**Beweis:** " + proof + "\n**Teammitglied:** " + player.getName();
+                    Main.getInstance().sendDiscordEmbed("https://discord.com/api/webhooks/1380596225342046209/46USBOQZGBnjzRfP1pyoeLFFc1Xj0QfsK2y_4yGAq5h0pI_hiyPwghsJ6Jfc426UGiZb",
+                            "Fightroom", "", "", "BAN", "#ff2f00", "https://mc-heads.net/avatar/" + target.getName() + "/100/nohelm.png", "", "", description);
+
 
                     if (Bukkit.getPlayerExact(name) != null) {
                         Main.getInstance().getBans().sendBanScreen(Bukkit.getPlayerExact(name));
@@ -103,7 +117,7 @@ public class BanCommand implements TabExecutor {
 
 
     private static final List<String> COMMANDS_TIMES = Arrays.asList("sec", "min", "hour", "day", "week", "month", "year");
-    private static final List<String> COMMANDS_REASONS = Arrays.asList("BELEIDIGUNG", "FEINDLICHKEIT", "BUGAUSNUTZUNG", "HACKING", "SPAM", "WERBUNG", "OBSZÖNITÄT", "ANSTÖSSIGER_SKIN", "ANSTÖSSIGER_NAME", "BANNUMGEHUNG", "PROVOKATION", "ECHTGELDHANDEL");
+    private static final List<String> COMMANDS_REASONS = Arrays.asList("BELEIDIGUNG", "FEINDLICHKEIT", "BUGAUSNUTZUNG", "HACKING", "SPAM", "WERBUNG", "OBSZÖNITÄT", "ANSTÖSSIGER_SKIN", "ANSTÖSSIGER_NAME", "BANNUMGEHUNG", "PROVOKATION", "ECHTGELDHANDEL", "TEAMING");
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
